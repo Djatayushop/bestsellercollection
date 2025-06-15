@@ -1,387 +1,469 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Zeliastore.id - Best Sellers</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <title>Zeliastore.id - Best Seller Products</title>
     <style>
-        .product-card:hover .product-actions {
-            opacity: 1;
-            transform: translateY(0);
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
-        
-        .product-image {
-            transition: transform 0.3s ease;
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
         }
-        
-        .product-card:hover .product-image {
-            transform: scale(1.05);
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            color: white;
         }
-        
-        .discount-badge {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            z-index: 10;
+
+        .header h1 {
+            font-size: 3rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            animation: glow 2s ease-in-out infinite alternate;
         }
-        
-        @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-            100% { transform: scale(1); }
+
+        @keyframes glow {
+            from {
+                text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            }
+            to {
+                text-shadow: 2px 2px 4px rgba(0,0,0,0.3), 0 0 20px rgba(255,255,255,0.4);
+            }
         }
-        
-        .hot-item {
+
+        .header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+
+        .best-seller-badge {
+            background: linear-gradient(45deg, #ff6b6b, #ffd93d);
+            color: white;
+            padding: 15px 30px;
+            border-radius: 50px;
+            font-weight: bold;
+            font-size: 1.3rem;
+            margin: 20px auto;
+            display: inline-block;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            box-shadow: 0 8px 25px rgba(255, 107, 107, 0.3);
             animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.05);
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 30px;
+            margin-top: 30px;
+        }
+
+        .product-card {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+            transition: all 0.4s ease;
+            position: relative;
+            backdrop-filter: blur(10px);
+        }
+
+        .product-card:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.2);
+        }
+
+        .product-image {
+            height: 250px;
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 50%, #4facfe 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .product-image::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 120px;
+            height: 120px;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            backdrop-filter: blur(5px);
+        }
+
+        .product-image.backpack::before {
+            content: '🎒';
+        }
+
+        .product-image.casual-bag::before {
+            content: '👜';
+        }
+
+        .product-image.crossbody::before {
+            content: '💎';
+        }
+
+        .product-image.anti-theft::before {
+            content: '🛡️';
+        }
+
+        .product-info {
+            padding: 25px;
+        }
+
+        .product-title {
+            font-size: 1.4rem;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 12px;
+            line-height: 1.3;
+        }
+
+        .product-description {
+            color: #666;
+            font-size: 0.95rem;
+            line-height: 1.6;
+            margin-bottom: 20px;
+            height: 80px;
+            overflow: hidden;
+        }
+
+        .product-features {
+            margin: 15px 0;
+        }
+
+        .feature-tag {
+            display: inline-block;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            padding: 5px 12px;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            margin: 3px;
+            font-weight: 500;
+        }
+
+        .price-section {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin: 20px 0;
+            padding: 15px;
+            background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+            border-radius: 12px;
+        }
+
+        .price {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #e74c3c;
+        }
+
+        .original-price {
+            text-decoration: line-through;
+            color: #999;
+            font-size: 1rem;
+            margin-left: 10px;
+        }
+
+        .discount-badge {
+            background: #e74c3c;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+
+        .cta-button {
+            width: 100%;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            padding: 15px;
+            border-radius: 12px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .cta-button:hover {
+            background: linear-gradient(45deg, #764ba2, #667eea);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        .stock-indicator {
+            background: #ff6b6b;
+            color: white;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: bold;
+            margin: 10px 0;
+            display: inline-block;
+            animation: blink 1.5s infinite;
+        }
+
+        @keyframes blink {
+            0%, 50% { opacity: 1; }
+            51%, 100% { opacity: 0.7; }
+        }
+
+        .promo-banner {
+            background: linear-gradient(45deg, #ff6b6b, #ffd93d);
+            color: white;
+            text-align: center;
+            padding: 20px;
+            margin: 30px 0;
+            border-radius: 15px;
+            font-weight: bold;
+            font-size: 1.2rem;
+            box-shadow: 0 10px 30px rgba(255, 107, 107, 0.3);
+        }
+
+        .testimonial {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 10px;
+            margin: 15px 0;
+            border-left: 4px solid #667eea;
+            font-style: italic;
+            font-size: 0.9rem;
+            line-height: 1.4;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .products-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            
+            .product-card {
+                margin: 0 10px;
+            }
         }
     </style>
 </head>
-<body class="bg-gray-50 font-sans">
-    <!-- Header -->
-    <header class="bg-white shadow-sm sticky top-0 z-50">
-        <div class="container mx-auto px-4 py-3 flex justify-between items-center">
-            <div class="flex items-center">
-                <a href="#" class="text-2xl font-bold text-indigo-600">Zeliastore.id</a>
-            </div>
-            <div class="hidden md:flex space-x-6">
-                <a href="#" class="text-gray-700 hover:text-indigo-600">Home</a>
-                <a href="#" class="text-gray-700 hover:text-indigo-600">Products</a>
-                <a href="#" class="text-gray-700 hover:text-indigo-600">Categories</a>
-                <a href="#" class="text-gray-700 hover:text-indigo-600">About</a>
-            </div>
-            <div class="flex items-center space-x-4">
-                <button class="p-2 text-gray-600 hover:text-indigo-600">
-                    <i class="fas fa-search"></i>
-                </button>
-                <button class="p-2 text-gray-600 hover:text-indigo-600">
-                    <i class="fas fa-shopping-cart"></i>
-                </button>
-                <button class="md:hidden p-2 text-gray-600 hover:text-indigo-600">
-                    <i class="fas fa-bars"></i>
-                </button>
-            </div>
-        </div>
-    </header>
-
-    <!-- Hero Section -->
-    <section class="bg-gradient-to-r from-indigo-500 to-purple-600 text-white py-12">
-        <div class="container mx-auto px-4 text-center">
-            <h1 class="text-4xl md:text-5xl font-bold mb-4">Our Best Sellers</h1>
-            <p class="text-xl md:text-2xl mb-8">Top quality bags loved by thousands of customers</p>
-            <div class="flex justify-center space-x-4">
-                <button class="bg-white text-indigo-600 px-6 py-2 rounded-full font-semibold hover:bg-gray-100 transition">Shop Now</button>
-                <button class="border border-white text-white px-6 py-2 rounded-full font-semibold hover:bg-white hover:text-indigo-600 transition">Learn More</button>
-            </div>
-        </div>
-    </section>
-
-    <!-- Products Section -->
-    <section class="container mx-auto px-4 py-12">
-        <div class="flex justify-between items-center mb-8">
-            <h2 class="text-3xl font-bold text-gray-800">Featured Products</h2>
-            <div class="flex space-x-2">
-                <button class="px-4 py-2 bg-indigo-600 text-white rounded-full hover:bg-indigo-700 transition">All</button>
-                <button class="px-4 py-2 bg-gray-200 text-gray-700 rounded-full hover:bg-gray-300 transition">Backpacks</button>
-                <button class="px-4 py-2 bg-gray-200 text-gray-700 rounded-full hover:bg-gray-300 transition">Handbags</button>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🛍️ ZELIASTORE.ID</h1>
+            <p>Koleksi Tas Premium Pilihan Terbaik Indonesia</p>
+            <div class="best-seller-badge">
+                🔥 BEST SELLER PRODUCTS 🔥
             </div>
         </div>
 
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            <!-- Product 1 -->
-            <div class="product-card bg-white rounded-lg overflow-hidden shadow-md hover:shadow-lg transition relative">
-                <div class="discount-badge bg-red-500 text-white px-3 py-1 rounded-full text-sm font-bold hot-item">
-                    HOT ITEM
-                </div>
-                <div class="p-4">
-                    <div class="relative overflow-hidden rounded-lg h-64">
-                        <img src="https://zeliastore.github.io/EVB-multifunctional-backpack/images/EVB-multifunctional-backpack.jpg" 
-                             alt="EVB Multifunctional Backpack" 
-                             class="w-full h-full object-cover product-image">
+        <div class="promo-banner">
+            ⚡ PROMO SPESIAL HARI INI! ⚡<br>
+            GRATIS ONGKIR SELURUH INDONESIA + GARANSI 30 HARI
+        </div>
+
+        <div class="products-grid">
+            <!-- EVB Multifunctional Backpack -->
+            <div class="product-card">
+                <div class="product-image backpack"></div>
+                <div class="product-info">
+                    <h3 class="product-title">EVB Melody Backpack - Multifunctional Premium</h3>
+                    <p class="product-description">
+                        Tas multifungsi premium untuk gaya hidup modern dengan port USB terintegrasi, 
+                        material water-resistant, dan sistem keamanan berlapis.
+                    </p>
+                    <div class="product-features">
+                        <span class="feature-tag">USB Port</span>
+                        <span class="feature-tag">Water Resistant</span>
+                        <span class="feature-tag">Anti Theft</span>
+                        <span class="feature-tag">Laptop Ready</span>
                     </div>
-                    <div class="mt-4">
-                        <h3 class="text-lg font-semibold text-gray-800">EVB Multifunctional Backpack</h3>
-                        <div class="flex items-center mt-1">
-                            <div class="flex text-yellow-400">
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star-half-alt"></i>
-                            </div>
-                            <span class="text-gray-600 ml-2">(4.8)</span>
-                        </div>
-                        <div class="mt-2">
-                            <span class="text-lg font-bold text-indigo-600">Rp 299.000</span>
-                            <span class="text-sm text-gray-500 line-through ml-2">Rp 399.000</span>
-                        </div>
+                    <div class="testimonial">
+                        "Tas ini benar-benar multifungsi! Port USB-nya sangat membantu untuk charging HP di perjalanan." - Mahasiswa Jakarta
                     </div>
-                </div>
-                <div class="product-actions opacity-0 transform translate-y-2 transition duration-300 absolute bottom-0 left-0 right-0 bg-white p-4 border-t border-gray-200 flex justify-between">
-                    <button class="bg-indigo-600 text-white px-4 py-2 rounded-full hover:bg-indigo-700 transition flex items-center">
-                        <i class="fas fa-shopping-cart mr-2"></i> Add to Cart
-                    </button>
-                    <button class="bg-gray-200 text-gray-700 px-4 py-2 rounded-full hover:bg-gray-300 transition">
-                        <i class="far fa-heart"></i>
+                    <div class="price-section">
+                        <div>
+                            <span class="price">Rp 185.000</span>
+                            <span class="original-price">Rp 399.999</span>
+                        </div>
+                        <span class="discount-badge">HEMAT 54%</span>
+                    </div>
+                    <div class="stock-indicator">⚠️ Stok Terbatas - 47 Unit!</div>
+                    <button class="cta-button" onclick="window.open('https://zeliastore.github.io/EVB-multifunctional-backpack/', '_blank')">
+                        BELI SEKARANG
                     </button>
                 </div>
             </div>
 
-            <!-- Product 2 -->
-            <div class="product-card bg-white rounded-lg overflow-hidden shadow-md hover:shadow-lg transition relative">
-                <div class="discount-badge bg-red-500 text-white px-3 py-1 rounded-full text-sm font-bold">
-                    25% OFF
-                </div>
-                <div class="p-4">
-                    <div class="relative overflow-hidden rounded-lg h-64">
-                        <img src="https://zeliastore.github.io/LARGE-CAPACITY-CASUAL-BAG/images/LARGE-CAPACITY-CASUAL-BAG.jpg" 
-                             alt="Large Capacity Casual Bag" 
-                             class="w-full h-full object-cover product-image">
+            <!-- Large Capacity Casual Bag -->
+            <div class="product-card">
+                <div class="product-image casual-bag"></div>
+                <div class="product-info">
+                    <h3 class="product-title">Large Capacity Casual Bag - Korean Style</h3>
+                    <p class="product-description">
+                        Tas kasual premium dengan desain Korean modern. Kapasitas besar dengan kualitas terjamin, 
+                        cocok untuk segala aktivitas sehari-hari.
+                    </p>
+                    <div class="product-features">
+                        <span class="feature-tag">Korean Design</span>
+                        <span class="feature-tag">Large Capacity</span>
+                        <span class="feature-tag">Premium Quality</span>
+                        <span class="feature-tag">Water Proof</span>
                     </div>
-                    <div class="mt-4">
-                        <h3 class="text-lg font-semibold text-gray-800">Large Capacity Casual Bag</h3>
-                        <div class="flex items-center mt-1">
-                            <div class="flex text-yellow-400">
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="far fa-star"></i>
-                            </div>
-                            <span class="text-gray-600 ml-2">(4.5)</span>
-                        </div>
-                        <div class="mt-2">
-                            <span class="text-lg font-bold text-indigo-600">Rp 249.000</span>
-                            <span class="text-sm text-gray-500 line-through ml-2">Rp 329.000</span>
-                        </div>
+                    <div class="testimonial">
+                        "Kapasitasnya besar banget, bisa muat laptop 14 inch plus semua perlengkapan kantor. Bahannya juga premium!" - Professional
                     </div>
-                </div>
-                <div class="product-actions opacity-0 transform translate-y-2 transition duration-300 absolute bottom-0 left-0 right-0 bg-white p-4 border-t border-gray-200 flex justify-between">
-                    <button class="bg-indigo-600 text-white px-4 py-2 rounded-full hover:bg-indigo-700 transition flex items-center">
-                        <i class="fas fa-shopping-cart mr-2"></i> Add to Cart
-                    </button>
-                    <button class="bg-gray-200 text-gray-700 px-4 py-2 rounded-full hover:bg-gray-300 transition">
-                        <i class="far fa-heart"></i>
+                    <div class="price-section">
+                        <div>
+                            <span class="price">Rp 199.000</span>
+                        </div>
+                        <span class="discount-badge">PROMO</span>
+                    </div>
+                    <div class="stock-indicator">🔥 Hot Item - 97 Pcs Tersedia</div>
+                    <button class="cta-button" onclick="window.open('https://zeliastore.github.io/LARGE-CAPACITY-CASUAL-BAG/', '_blank')">
+                        BELI SEKARANG
                     </button>
                 </div>
             </div>
 
-            <!-- Product 3 -->
-            <div class="product-card bg-white rounded-lg overflow-hidden shadow-md hover:shadow-lg transition relative">
-                <div class="discount-badge bg-green-500 text-white px-3 py-1 rounded-full text-sm font-bold">
-                    NEW
-                </div>
-                <div class="p-4">
-                    <div class="relative overflow-hidden rounded-lg h-64">
-                        <img src="https://zeliastore.github.io/Premium-Diamond-Crossbody-Bag/images/Premium-Diamond-Crossbody-Bag.jpg" 
-                             alt="Premium Diamond Crossbody Bag" 
-                             class="w-full h-full object-cover product-image">
+            <!-- Premium Diamond Crossbody Bag -->
+            <div class="product-card">
+                <div class="product-image crossbody"></div>
+                <div class="product-info">
+                    <h3 class="product-title">Premium Diamond Crossbody Bag</h3>
+                    <p class="product-description">
+                        Tas eksklusif dengan kristal authentic yang memancarkan kemewahan. 
+                        Cocok untuk kerja, kencan, atau acara formal dengan multiple kompartemen.
+                    </p>
+                    <div class="product-features">
+                        <span class="feature-tag">Kristal Authentic</span>
+                        <span class="feature-tag">Multi Compartment</span>
+                        <span class="feature-tag">Elegant Design</span>
+                        <span class="feature-tag">Light Weight</span>
                     </div>
-                    <div class="mt-4">
-                        <h3 class="text-lg font-semibold text-gray-800">Premium Diamond Crossbody Bag</h3>
-                        <div class="flex items-center mt-1">
-                            <div class="flex text-yellow-400">
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                            </div>
-                            <span class="text-gray-600 ml-2">(5.0)</span>
-                        </div>
-                        <div class="mt-2">
-                            <span class="text-lg font-bold text-indigo-600">Rp 349.000</span>
-                            <span class="text-sm text-gray-500 line-through ml-2">Rp 429.000</span>
-                        </div>
+                    <div class="testimonial">
+                        "Tasnya sangat mewah dan terlihat premium. Kristalnya berkilau indah dan cocok untuk acara formal maupun casual." - Fashion Enthusiast
                     </div>
-                </div>
-                <div class="product-actions opacity-0 transform translate-y-2 transition duration-300 absolute bottom-0 left-0 right-0 bg-white p-4 border-t border-gray-200 flex justify-between">
-                    <button class="bg-indigo-600 text-white px-4 py-2 rounded-full hover:bg-indigo-700 transition flex items-center">
-                        <i class="fas fa-shopping-cart mr-2"></i> Add to Cart
-                    </button>
-                    <button class="bg-gray-200 text-gray-700 px-4 py-2 rounded-full hover:bg-gray-300 transition">
-                        <i class="far fa-heart"></i>
+                    <div class="price-section">
+                        <div>
+                            <span class="price">Rp 149.000</span>
+                        </div>
+                        <span class="discount-badge">GRATIS 1 TAS</span>
+                    </div>
+                    <div class="stock-indicator">✨ 1,257 wanita sudah membeli bulan ini!</div>
+                    <button class="cta-button" onclick="window.open('https://zeliastore.github.io/Premium-Diamond-Crossbody-Bag/', '_blank')">
+                        BELI SEKARANG
                     </button>
                 </div>
             </div>
 
-            <!-- Product 4 -->
-            <div class="product-card bg-white rounded-lg overflow-hidden shadow-md hover:shadow-lg transition relative">
-                <div class="discount-badge bg-orange-500 text-white px-3 py-1 rounded-full text-sm font-bold">
-                    LIMITED
-                </div>
-                <div class="p-4">
-                    <div class="relative overflow-hidden rounded-lg h-64">
-                        <img src="https://zeliastore.github.io/Fashion-anti-theft-handbag/images/Fashion-anti-theft-handbag.jpg" 
-                             alt="Fashion Anti-Theft Handbag" 
-                             class="w-full h-full object-cover product-image">
+            <!-- Fashion Anti-Theft Handbag -->
+            <div class="product-card">
+                <div class="product-image anti-theft"></div>
+                <div class="product-info">
+                    <h3 class="product-title">Fashion Anti-Theft Handbag</h3>
+                    <p class="product-description">
+                        Tas stylish anti copet dengan sistem penguncian rahasia, bahan tahan pisau, 
+                        dan teknologi RFID protection untuk keamanan maksimal.
+                    </p>
+                    <div class="product-features">
+                        <span class="feature-tag">Anti Theft</span>
+                        <span class="feature-tag">RFID Protection</span>
+                        <span class="feature-tag">Cut Resistant</span>
+                        <span class="feature-tag">Multi Function</span>
                     </div>
-                    <div class="mt-4">
-                        <h3 class="text-lg font-semibold text-gray-800">Fashion Anti-Theft Handbag</h3>
-                        <div class="flex items-center mt-1">
-                            <div class="flex text-yellow-400">
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                            </div>
-                            <span class="text-gray-600 ml-2">(5.0)</span>
-                        </div>
-                        <div class="mt-2">
-                            <span class="text-lg font-bold text-indigo-600">Rp 279.000</span>
-                            <span class="text-sm text-gray-500 line-through ml-2">Rp 359.000</span>
-                        </div>
+                    <div class="testimonial">
+                        "Sudah beberapa kali ada yang mencoba buka tas saya di mall tapi gagal terus. Worth it banget untuk keamanan!" - Working Woman
                     </div>
-                </div>
-                <div class="product-actions opacity-0 transform translate-y-2 transition duration-300 absolute bottom-0 left-0 right-0 bg-white p-4 border-t border-gray-200 flex justify-between">
-                    <button class="bg-indigo-600 text-white px-4 py-2 rounded-full hover:bg-indigo-700 transition flex items-center">
-                        <i class="fas fa-shopping-cart mr-2"></i> Add to Cart
-                    </button>
-                    <button class="bg-gray-200 text-gray-700 px-4 py-2 rounded-full hover:bg-gray-300 transition">
-                        <i class="far fa-heart"></i>
+                    <div class="price-section">
+                        <div>
+                            <span class="price">Rp 179.000</span>
+                        </div>
+                        <span class="discount-badge">BELI 1 DAPAT 2</span>
+                    </div>
+                    <div class="stock-indicator">🚨 Hanya 12 tas tersisa untuk promo ini!</div>
+                    <button class="cta-button" onclick="window.open('https://zeliastore.github.io/Fashion-anti-theft-handbag/', '_blank')">
+                        BELI SEKARANG
                     </button>
                 </div>
             </div>
         </div>
-    </section>
 
-    <!-- Features Section -->
-    <section class="bg-gray-100 py-12">
-        <div class="container mx-auto px-4">
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                <div class="bg-white p-6 rounded-lg shadow-sm flex items-start">
-                    <div class="bg-indigo-100 p-3 rounded-full mr-4">
-                        <i class="fas fa-truck text-indigo-600 text-xl"></i>
-                    </div>
-                    <div>
-                        <h3 class="text-lg font-semibold mb-2">Free Shipping</h3>
-                        <p class="text-gray-600">Free shipping on all orders over Rp 500.000</p>
-                    </div>
-                </div>
-                <div class="bg-white p-6 rounded-lg shadow-sm flex items-start">
-                    <div class="bg-indigo-100 p-3 rounded-full mr-4">
-                        <i class="fas fa-undo-alt text-indigo-600 text-xl"></i>
-                    </div>
-                    <div>
-                        <h3 class="text-lg font-semibold mb-2">Easy Returns</h3>
-                        <p class="text-gray-600">30-day return policy for all products</p>
-                    </div>
-                </div>
-                <div class="bg-white p-6 rounded-lg shadow-sm flex items-start">
-                    <div class="bg-indigo-100 p-3 rounded-full mr-4">
-                        <i class="fas fa-lock text-indigo-600 text-xl"></i>
-                    </div>
-                    <div>
-                        <h3 class="text-lg font-semibold mb-2">Secure Payment</h3>
-                        <p class="text-gray-600">100% secure payment methods</p>
-                    </div>
-                </div>
-            </div>
+        <div class="promo-banner">
+            🎯 MENGAPA MEMILIH ZELIASTORE.ID? 🎯<br>
+            ✅ Garansi 30 Hari | ✅ Gratis Ongkir | ✅ Pembayaran Aman | ✅ Kualitas Premium
         </div>
-    </section>
-
-    <!-- Newsletter Section -->
-    <section class="bg-indigo-600 text-white py-12">
-        <div class="container mx-auto px-4 text-center">
-            <h2 class="text-3xl font-bold mb-4">Subscribe to Our Newsletter</h2>
-            <p class="text-xl mb-6">Get updates on special offers and new products</p>
-            <div class="max-w-md mx-auto flex">
-                <input type="email" placeholder="Your email address" class="flex-grow px-4 py-3 rounded-l-lg focus:outline-none text-gray-800">
-                <button class="bg-indigo-800 px-6 py-3 rounded-r-lg font-semibold hover:bg-indigo-900 transition">Subscribe</button>
-            </div>
-        </div>
-    </section>
-
-    <!-- Footer -->
-    <footer class="bg-gray-800 text-white py-8">
-        <div class="container mx-auto px-4">
-            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
-                <div>
-                    <h3 class="text-xl font-bold mb-4">Zeliastore.id</h3>
-                    <p class="text-gray-400">Premium quality bags and accessories for your everyday needs.</p>
-                    <div class="flex space-x-4 mt-4">
-                        <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-facebook-f"></i></a>
-                        <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-instagram"></i></a>
-                        <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-twitter"></i></a>
-                        <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-tiktok"></i></a>
-                    </div>
-                </div>
-                <div>
-                    <h4 class="font-semibold mb-4">Shop</h4>
-                    <ul class="space-y-2">
-                        <li><a href="#" class="text-gray-400 hover:text-white">All Products</a></li>
-                        <li><a href="#" class="text-gray-400 hover:text-white">New Arrivals</a></li>
-                        <li><a href="#" class="text-gray-400 hover:text-white">Best Sellers</a></li>
-                        <li><a href="#" class="text-gray-400 hover:text-white">Special Offers</a></li>
-                    </ul>
-                </div>
-                <div>
-                    <h4 class="font-semibold mb-4">Customer Service</h4>
-                    <ul class="space-y-2">
-                        <li><a href="#" class="text-gray-400 hover:text-white">Contact Us</a></li>
-                        <li><a href="#" class="text-gray-400 hover:text-white">FAQs</a></li>
-                        <li><a href="#" class="text-gray-400 hover:text-white">Shipping Policy</a></li>
-                        <li><a href="#" class="text-gray-400 hover:text-white">Returns & Exchanges</a></li>
-                    </ul>
-                </div>
-                <div>
-                    <h4 class="font-semibold mb-4">About</h4>
-                    <ul class="space-y-2">
-                        <li><a href="#" class="text-gray-400 hover:text-white">Our Story</a></li>
-                        <li><a href="#" class="text-gray-400 hover:text-white">Blog</a></li>
-                        <li><a href="#" class="text-gray-400 hover:text-white">Careers</a></li>
-                        <li><a href="#" class="text-gray-400 hover:text-white">Privacy Policy</a></li>
-                    </ul>
-                </div>
-            </div>
-            <div class="border-t border-gray-700 mt-8 pt-8 text-center text-gray-400">
-                <p>&copy; 2023 Zeliastore.id. All rights reserved.</p>
-            </div>
-        </div>
-    </footer>
+    </div>
 
     <script>
-        // Simple JavaScript for demonstration
+        // Add some interactive effects
         document.addEventListener('DOMContentLoaded', function() {
-            // Add to cart functionality
-            const addToCartButtons = document.querySelectorAll('.product-actions button:first-child');
+            const cards = document.querySelectorAll('.product-card');
             
-            addToCartButtons.forEach(button => {
-                button.addEventListener('click', function() {
-                    const productName = this.closest('.product-card').querySelector('h3').textContent;
-                    alert(`Added ${productName} to your cart!`);
+            cards.forEach(card => {
+                card.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateY(-10px) scale(1.02)';
+                });
+                
+                card.addEventListener('mouseleave', function() {
+                    this.style.transform = 'translateY(0) scale(1)';
                 });
             });
-            
-            // Wishlist functionality
-            const wishlistButtons = document.querySelectorAll('.product-actions button:last-child');
-            
-            wishlistButtons.forEach(button => {
-                button.addEventListener('click', function() {
-                    const icon = this.querySelector('i');
-                    if (icon.classList.contains('far')) {
-                        icon.classList.remove('far');
-                        icon.classList.add('fas', 'text-red-500');
-                    } else {
-                        icon.classList.remove('fas', 'text-red-500');
-                        icon.classList.add('far');
-                    }
-                });
+
+            // Add floating animation to feature tags
+            const tags = document.querySelectorAll('.feature-tag');
+            tags.forEach((tag, index) => {
+                tag.style.animationDelay = (index * 0.1) + 's';
+                tag.style.animation = 'float 3s ease-in-out infinite';
             });
-            
-            // Newsletter subscription
-            const newsletterForm = document.querySelector('section.bg-indigo-600 form');
-            if (newsletterForm) {
-                newsletterForm.addEventListener('submit', function(e) {
-                    e.preventDefault();
-                    const email = this.querySelector('input').value;
-                    alert(`Thank you for subscribing with ${email}! You'll receive our newsletter soon.`);
-                    this.querySelector('input').value = '';
-                });
-            }
         });
+
+        // Add floating keyframe animation
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes float {
+                0%, 100% { transform: translateY(0px); }
+                50% { transform: translateY(-3px); }
+            }
+        `;
+        document.head.appendChild(style);
     </script>
 </body>
 </html>
